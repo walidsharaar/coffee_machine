@@ -49,10 +49,31 @@ def process_coins():
     total += int(input("how many pennies? : ")) * 0.01
     return total
 
+#todo make coffee
+def make_coffee(drink_name,order_ingredients):
+    """Substract the required ingredient from the resources"""
+    for item in order_ingredients:
+        resources[item] -= order_ingredients[item]
+    print(f"Here is your {drink_name}")
+
+#todo process the transcation
+
+def is_transaction_successful(money,drink_cost):
+    """Return True or False based money inserted"""
+    if money >= drink_cost:
+        change = round(money-drink_cost,2)
+        print(change)
+        global  profit
+        profit+=drink_cost
+        return True
+    else:
+        print("Sorry you inserted insufficient money. Money will be refunded.")
+        return False
+
 #todo ask the user choice
 is_on=True
 while is_on:
-    choice = input("What would you like? espresso/latte/cuppocino  ")
+    choice = input("What would you like? espresso/latte/cappuccino  ")
     if choice == "off":
         is_on = False
     elif choice == "report":
@@ -65,10 +86,12 @@ while is_on:
         drink =MENU[choice]
         if is_resource_sufficient(drink["ingredients"]):
             payment= process_coins()
+            if is_transaction_successful(payment,drink["cost"]):
+                make_coffee()
 
 
 
 
 
 
-    print(choice)
+
